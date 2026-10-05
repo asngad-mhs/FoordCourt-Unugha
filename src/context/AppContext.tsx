@@ -128,10 +128,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return saved ? JSON.parse(saved) : INITIAL_USERS;
   });
 
-  // Current logged in user (defaults to Kasir 1 or saved)
+  // Current logged in user (defaults to null so initial screen is Login Page, or restored from session)
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('unugha_current_user');
-    return saved ? JSON.parse(saved) : INITIAL_USERS[1]; // default kasir1
+    return saved ? JSON.parse(saved) : null;
   });
 
   const [activeTab, setActiveTab] = useState<AppTab>('beranda');

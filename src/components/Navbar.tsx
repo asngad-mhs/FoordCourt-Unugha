@@ -13,15 +13,11 @@ import {
   Clock,
   UserCheck,
   ChevronDown,
-  Users,
-  Settings,
   LogIn,
   LogOut,
-  ShieldCheck,
   Home,
   Menu as MenuIcon,
   X,
-  Sparkles,
 } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
@@ -68,7 +64,6 @@ export const Navbar: React.FC = () => {
   }, []);
 
   const totalCartItems = cart.reduce((acc, it) => acc + it.quantity, 0);
-  const isAdmin = currentUser?.role === 'admin';
 
   const navigateTo = (tab: any) => {
     setActiveTab(tab);
@@ -163,36 +158,6 @@ export const Navbar: React.FC = () => {
                 <span>Kios & Menu</span>
               </button>
 
-              {isAdmin && (
-                <button
-                  onClick={() => setActiveTab('admin_users')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                    activeTab === 'admin_users'
-                      ? 'bg-amber-400 text-emerald-950 shadow-sm font-bold'
-                      : 'text-emerald-100 hover:bg-emerald-800/60'
-                  }`}
-                  title="Admin: Manajemen User Kasir (FR-03)"
-                >
-                  <Users className="w-3.5 h-3.5" />
-                  <span>Kasir (FR-03)</span>
-                </button>
-              )}
-
-              {isAdmin && (
-                <button
-                  onClick={() => setActiveTab('admin_settings')}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                    activeTab === 'admin_settings'
-                      ? 'bg-amber-400 text-emerald-950 shadow-sm font-bold'
-                      : 'text-emerald-100 hover:bg-emerald-800/60'
-                  }`}
-                  title="Admin: Pengaturan Foodcourt & Format Struk"
-                >
-                  <Settings className="w-3.5 h-3.5" />
-                  <span>Pengaturan</span>
-                </button>
-              )}
-
               <button
                 onClick={() => setActiveTab('tenant_kitchen')}
                 className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
@@ -218,7 +183,7 @@ export const Navbar: React.FC = () => {
               </button>
             </nav>
 
-            {/* Right Controls: Clock, Sound, User Role Switcher & Mobile Menu Button */}
+            {/* Right Controls: Clock, Sound, User Switcher & Mobile Menu Button */}
             <div className="flex items-center gap-1.5 sm:gap-2.5">
               {/* Live Clock (Laptop/PC) */}
               <div className="hidden xl:flex flex-col items-end text-right pr-2 border-r border-emerald-800/60">
@@ -259,7 +224,7 @@ export const Navbar: React.FC = () => {
                 <RotateCcw className="w-4 h-4" />
               </button>
 
-              {/* User Account / Role Switcher */}
+              {/* User Account Menu */}
               {currentUser ? (
                 <div className="relative">
                   <button
@@ -278,13 +243,9 @@ export const Navbar: React.FC = () => {
                       <div className="text-xs font-bold text-white leading-tight line-clamp-1 max-w-[100px] sm:max-w-[120px]">
                         {currentUser.name}
                       </div>
-                      <div className="text-[10px] text-amber-300 capitalize font-medium flex items-center gap-1">
-                        {currentUser.role === 'admin' ? (
-                          <ShieldCheck className="w-2.5 h-2.5 text-amber-400" />
-                        ) : (
-                          <UserCheck className="w-2.5 h-2.5 text-emerald-400" />
-                        )}
-                        Role: {currentUser.role}
+                      <div className="text-[10px] text-emerald-300 font-medium flex items-center gap-1">
+                        <UserCheck className="w-2.5 h-2.5 text-emerald-400" />
+                        <span>Online</span>
                       </div>
                     </div>
                     <ChevronDown className="w-3.5 h-3.5 text-emerald-300" />
@@ -301,7 +262,7 @@ export const Navbar: React.FC = () => {
                         </p>
                         <p className="text-xs font-bold text-slate-800">{currentUser.name}</p>
                         <p className="text-[10px] text-emerald-700 font-mono">
-                          Role: {currentUser.role.toUpperCase()}
+                          @{currentUser.username}
                         </p>
                       </div>
 
@@ -328,24 +289,10 @@ export const Navbar: React.FC = () => {
                           <span>Ganti Akun / Login User Lain (FR-01)</span>
                         </button>
 
-                        {isAdmin && (
-                          <button
-                            onClick={() => {
-                              setShowRoleDropdown(false);
-                              setActiveTab('admin_users');
-                            }}
-                            className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-left text-xs font-semibold text-slate-700 hover:bg-slate-50 transition"
-                          >
-                            <Users className="w-3.5 h-3.5 text-purple-700" />
-                            <span>Kelola Petugas Kasir (FR-03)</span>
-                          </button>
-                        )}
-
                         <button
                           onClick={() => {
                             setShowRoleDropdown(false);
                             logout();
-                            setIsLoginModalOpen(true);
                           }}
                           className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-left text-xs font-bold text-rose-600 hover:bg-rose-50 transition"
                         >
@@ -500,44 +447,6 @@ export const Navbar: React.FC = () => {
                   <p className="text-[10px] opacity-80">Antrian masak tiap stand dapur</p>
                 </div>
               </button>
-
-              {isAdmin && (
-                <button
-                  onClick={() => navigateTo('admin_users')}
-                  className={`flex items-center gap-3 p-3 rounded-2xl transition text-left ${
-                    activeTab === 'admin_users'
-                      ? 'bg-amber-400 text-emerald-950 font-bold shadow-md'
-                    : 'bg-emerald-900/70 hover:bg-emerald-800 text-white'
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${activeTab === 'admin_users' ? 'bg-emerald-950 text-amber-400' : 'bg-emerald-800 text-white'}`}>
-                    <Users className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-bold">👥 Kelola Petugas Kasir</p>
-                    <p className="text-[10px] opacity-80">Akun kasir, role & status aktif</p>
-                  </div>
-                </button>
-              )}
-
-              {isAdmin && (
-                <button
-                  onClick={() => navigateTo('admin_settings')}
-                  className={`flex items-center gap-3 p-3 rounded-2xl transition text-left ${
-                    activeTab === 'admin_settings'
-                      ? 'bg-amber-400 text-emerald-950 font-bold shadow-md'
-                    : 'bg-emerald-900/70 hover:bg-emerald-800 text-white'
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${activeTab === 'admin_settings' ? 'bg-emerald-950 text-amber-400' : 'bg-emerald-800 text-white'}`}>
-                    <Settings className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <p className="font-bold">⚙️ Pengaturan & Struk</p>
-                    <p className="text-[10px] opacity-80">Format nomor struk & logo</p>
-                  </div>
-                </button>
-              )}
 
               <button
                 onClick={() => navigateTo('laravel_code')}

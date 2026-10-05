@@ -6,6 +6,7 @@
 import React from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import { Navbar } from './components/Navbar';
+import { LoginPage } from './components/LoginPage';
 import { KasirView } from './components/KasirView';
 import { LaporanView } from './components/LaporanView';
 import { AdminDashboard } from './components/AdminDashboard';
@@ -19,12 +20,17 @@ import { Receipt, BarChart3, Store, ChefHat, Code2, Users, Settings, Home } from
 const MainApp: React.FC = () => {
   const { activeTab, setActiveTab, cart, currentUser } = useApp();
 
+  // If not logged in, display the initial user login screen first (FR-01 & FR-02)
+  if (!currentUser) {
+    return <LoginPage />;
+  }
+
   const totalCartCount = cart.reduce((acc, it) => acc + it.quantity, 0);
   const isAdmin = currentUser?.role === 'admin';
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col font-['Plus_Jakarta_Sans',sans-serif] selection:bg-amber-400 selection:text-emerald-950">
-      {/* Top Navbar with Beranda, clock, account & mobile drawer */}
+      {/* Top Navbar with Beranda, clock, account switcher, logout & mobile drawer */}
       <Navbar />
 
       {/* Main View Area */}
@@ -115,33 +121,18 @@ const MainApp: React.FC = () => {
           <span className="text-[10px] mt-0.5 tracking-tight">Dapur</span>
         </button>
 
-        {isAdmin ? (
-          <button
-            onClick={() => setActiveTab('admin_users')}
-            className={`flex-1 flex flex-col items-center py-1 px-1 rounded-xl transition active:scale-95 ${
-              activeTab === 'admin_users' ? 'text-purple-700 font-extrabold' : 'text-slate-500 hover:text-slate-800'
-            }`}
-            title="Kelola Kasir"
-          >
-            <div className={`p-1 rounded-lg ${activeTab === 'admin_users' ? 'bg-purple-100 text-purple-700' : ''}`}>
-              <Users className="w-4 h-4" />
-            </div>
-            <span className="text-[10px] mt-0.5 tracking-tight">Kasir</span>
-          </button>
-        ) : (
-          <button
-            onClick={() => setActiveTab('laravel_code')}
-            className={`flex-1 flex flex-col items-center py-1 px-1 rounded-xl transition active:scale-95 ${
-              activeTab === 'laravel_code' ? 'text-rose-600 font-extrabold' : 'text-slate-500 hover:text-slate-800'
-            }`}
-            title="Struktur Laravel"
-          >
-            <div className={`p-1 rounded-lg ${activeTab === 'laravel_code' ? 'bg-rose-100 text-rose-600' : ''}`}>
-              <Code2 className="w-4 h-4 text-rose-600" />
-            </div>
-            <span className="text-[10px] mt-0.5 tracking-tight">Laravel</span>
-          </button>
-        )}
+        <button
+          onClick={() => setActiveTab('laravel_code')}
+          className={`flex-1 flex flex-col items-center py-1 px-1 rounded-xl transition active:scale-95 ${
+            activeTab === 'laravel_code' ? 'text-rose-600 font-extrabold' : 'text-slate-500 hover:text-slate-800'
+          }`}
+          title="Struktur Laravel"
+        >
+          <div className={`p-1 rounded-lg ${activeTab === 'laravel_code' ? 'bg-rose-100 text-rose-600' : ''}`}>
+            <Code2 className="w-4 h-4 text-rose-600" />
+          </div>
+          <span className="text-[10px] mt-0.5 tracking-tight">Laravel</span>
+        </button>
       </div>
     </div>
   );
