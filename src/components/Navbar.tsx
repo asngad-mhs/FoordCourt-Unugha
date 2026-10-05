@@ -11,7 +11,7 @@ import {
   VolumeX,
   RotateCcw,
   Clock,
-  UserCheck,
+  User as UserIcon,
   ChevronDown,
   LogIn,
   LogOut,
@@ -101,7 +101,7 @@ export const Navbar: React.FC = () => {
               </div>
             </div>
 
-            {/* Desktop Navigation Tabs (Laptop & PC) */}
+            {/* Desktop Navigation Tabs (Clean & Focused POS Operations) */}
             <nav className="hidden lg:flex items-center gap-1 bg-emerald-950/60 p-1.5 rounded-xl border border-emerald-800/50">
               <button
                 onClick={() => setActiveTab('beranda')}
@@ -144,18 +144,6 @@ export const Navbar: React.FC = () => {
                 <BarChart3 className="w-3.5 h-3.5" />
                 <span>Laporan Harian</span>
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-              </button>
-
-              <button
-                onClick={() => setActiveTab('admin_menu')}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  activeTab === 'admin_menu' || activeTab === 'admin_tenant'
-                    ? 'bg-amber-400 text-emerald-950 shadow-sm font-bold'
-                    : 'text-emerald-100 hover:bg-emerald-800/60'
-                }`}
-              >
-                <Store className="w-3.5 h-3.5" />
-                <span>Kios & Menu</span>
               </button>
 
               <button
@@ -224,31 +212,27 @@ export const Navbar: React.FC = () => {
                 <RotateCcw className="w-4 h-4" />
               </button>
 
-              {/* User Account Menu */}
+              {/* User Account Menu - Icon Only */}
               {currentUser ? (
                 <div className="relative">
                   <button
                     onClick={() => setShowRoleDropdown(!showRoleDropdown)}
-                    className="flex items-center gap-1.5 sm:gap-2 pl-1.5 sm:pl-2 pr-2 sm:pr-3 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-950 border border-emerald-700/60 transition text-left"
+                    className="p-1.5 sm:p-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-800 text-emerald-200 hover:text-white border border-emerald-700/60 transition active:scale-95 flex items-center gap-1.5 group"
+                    title={`Akun: ${currentUser.name} (@${currentUser.username}) - Klik untuk menu akun`}
+                    aria-label="Menu Akun Pengguna"
                   >
-                    <img
-                      src={
-                        currentUser.avatar ||
-                        'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100'
-                      }
-                      alt={currentUser.name}
-                      className="w-7 h-7 rounded-lg object-cover border border-amber-400/50 shrink-0"
-                    />
-                    <div className="hidden sm:block text-left">
-                      <div className="text-xs font-bold text-white leading-tight line-clamp-1 max-w-[100px] sm:max-w-[120px]">
-                        {currentUser.name}
-                      </div>
-                      <div className="text-[10px] text-emerald-300 font-medium flex items-center gap-1">
-                        <UserCheck className="w-2.5 h-2.5 text-emerald-400" />
-                        <span>Online</span>
-                      </div>
+                    <div className="relative flex items-center justify-center">
+                      <img
+                        src={
+                          currentUser.avatar ||
+                          'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100'
+                        }
+                        alt={currentUser.name}
+                        className="w-7 h-7 sm:w-7.5 sm:h-7.5 rounded-lg object-cover border border-amber-400/60 group-hover:scale-105 transition-transform"
+                      />
+                      <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-emerald-400 border-2 border-emerald-950 rounded-full"></span>
                     </div>
-                    <ChevronDown className="w-3.5 h-3.5 text-emerald-300" />
+                    <ChevronDown className="w-3 h-3 text-emerald-300 group-hover:translate-y-0.5 transition-transform hidden sm:block" />
                   </button>
 
                   {showRoleDropdown && (
@@ -411,23 +395,6 @@ export const Navbar: React.FC = () => {
                 <div>
                   <p className="font-bold">📊 Laporan Penjualan</p>
                   <p className="text-[10px] opacity-80">Real-time omset, filter & CSV</p>
-                </div>
-              </button>
-
-              <button
-                onClick={() => navigateTo('admin_menu')}
-                className={`flex items-center gap-3 p-3 rounded-2xl transition text-left ${
-                  activeTab === 'admin_menu' || activeTab === 'admin_tenant'
-                    ? 'bg-amber-400 text-emerald-950 font-bold shadow-md'
-                    : 'bg-emerald-900/70 hover:bg-emerald-800 text-white'
-                }`}
-              >
-                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${activeTab === 'admin_menu' || activeTab === 'admin_tenant' ? 'bg-emerald-950 text-amber-400' : 'bg-emerald-800 text-white'}`}>
-                  <Store className="w-4 h-4" />
-                </div>
-                <div>
-                  <p className="font-bold">🏪 Kios Mitra & Menu</p>
-                  <p className="text-[10px] opacity-80">CRUD menu, harga & stok</p>
                 </div>
               </button>
 
