@@ -1,0 +1,6 @@
+{
+  "name": "Kasir FoodCourt UNUGHA",
+  "description": "Sistem Kasir POS FoodCourt UNUGHA Cilacap dengan pencatatan pesanan multi-tenant, pembayaran digital QRIS & Tunai, serta laporan penjualan harian real-time.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
